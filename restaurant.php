@@ -1,6 +1,7 @@
 <?php
 session_start();
 $city_name = $_SESSION['city_name'];
+$user_name=$_SESSION['name'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -383,7 +384,7 @@ $city_name = $_SESSION['city_name'];
                     <div class="card-body userinfo" style="background-color: #eff0f2;">
                    
                         <img class="user_img" style="float: left; margin-right: 0.7em;" src="https://profile.yemeksepeti.com/fb/2379/94EB0F6629D88D2DA5D40ED607C5217C.png">
-                        <span class="user-name fw-bold" style="color: #fa0050; float: left;">User Name</span>
+                        <span class="user-name fw-bold" style="color: #fa0050; float: left;"><?php echo $user_name; ?></span>
                         <div class="dropdown" style="display: inline; float: right;">
                             <a class="btn btn-sm mt-1 btn-userinfo" style="color:black; font-weight:400;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fa fa-chevron-down"></i> 
