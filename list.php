@@ -1,13 +1,35 @@
 <?php
-		session_start();
-
         include "config.php";
-                    
+                            
         if($conn->connect_error)
         {
             echo "connection_aborted";
         }
-        //else echo "success";    
+        //else echo "success"; 
+        //session_set_cookie_params(0);
+		session_start();
+
+        $item_array = $_SESSION["cart"];
+        $basket_res_id = $_SESSION["basket_res_id"];
+        
+        if(!empty($_SESSION['cart']))
+        {
+
+            $query = "SELECT * FROM restaurants WHERE res_id='$basket_res_id'";
+            $result = mysqli_query($conn, $query);
+
+            if ($result->num_rows == 1) {
+                $row = mysqli_fetch_assoc($result);
+                $_SESSION['basket_res_name']= $row['name'];
+                $_SESSION['basket_res_address']= $row['address'];
+                $basket_res_name = $_SESSION['basket_res_name'];
+                $basket_res_address = $_SESSION['basket_res_address'];
+            } else {
+                echo "hata!";
+            }
+        }
+        
+           
 
         $user_name=$_SESSION['name'];
         $city_id=$_SESSION['city_id'];
@@ -21,6 +43,8 @@
           } else {
             echo "hata!";
           }
+
+        
         
 	?>
 <!DOCTYPE html>
@@ -127,7 +151,7 @@
    
         @media (min-width: 1px){
             .col-md-4 {
-                width: 25%;
+                /*width: 25%;*/
                 float: left;
             }
         }
@@ -167,6 +191,20 @@
             color:#fa0050;
         }
 
+        .btn-remove, .btn-remove span{
+            text-decoration:none;
+            color:#fa0050;
+          
+        }
+        .btn-remove:hover span {
+            color:orange;
+            
+        }
+        .basket_res_name, .basket_res_name:hover{
+            color:orange;
+            font-size:14px;
+        }
+
 
             
 
@@ -196,7 +234,7 @@
         </div>
     </header>-->
 
-    <nav class="navbar navbar-expand-md static-top py-2 z-depth-5" style="background-color:#fa0050;">
+    <nav class="navbar navbar-expand-md fixed-top py-2 z-depth-5" style="background-color:#fa0050;">
         <div class="container">
           <a class="navbar-brand p-3" href="#"><img src="https://assets.yemeksepeti.com/images/ys-new-logo.svg"></a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -204,9 +242,9 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
           
-            <form class="d-flex" action="" method = "get">
-              <input class="form-control me-2" type="text" value="<?php if(isset($_GET['rest_name'])){echo $_GET['rest_name'];}?>" id="rest_name" name="rest_name" placeholder="Restoran arayın.." aria-label="Search">
-              <button class="btn btn-outline-light" type="submit"><i class="bi bi-search"></i></button>
+            <form class="d-flex" action="" method = "POST">
+              <input class="form-control me-2" type="text" id="rest_name" name="rest_name" placeholder="Restoran arayın.." aria-label="Search">
+              <button class="btn btn-outline-light" type="submit" name="submit_btn"><i class="bi bi-search"></i></button>
             </form>
           </div>
         </div>
@@ -215,17 +253,17 @@
 
 
 
-    <div class="top-state"> 
+    <div class="top-state" style="margin-top:60px;"> 
         <div class="top-image"> <img src="//cdn.yemeksepeti.com/App_Themes/SiteHeaders/Yemeksonuc.jpg"  style="top: -40px;"> </div> 
         <div class="container"> 
             <div class="row"> 
                 <div class="col-16-3" style="z-index: 1; --bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
                     <h1 class="pt-3" style="font-size:24px;max-width: 740px; line-height: 31px;font-weight: 700;">
                     <?php
-                    if(isset($_GET["rest_name"]))
+                    if(isset($_POST["rest_name"]))
                     {
                         $rest_nametemp = '"';
-                        $rest_nametemp .= $_GET["rest_name"];
+                        $rest_nametemp .= $_POST["rest_name"];
                         $rest_nametemp .= '"';
                         $rest_nametemp .= ' için sonuçlar';
                     }
@@ -255,10 +293,73 @@
                     <div class="card-header fw-bold" style="background-color: #fa0050;color: white;font-size: 11px;">
                         <span>YEMEK SEPETİM</span>
                     </div>
-                    <div class="card-body empty-basket ">
-                        <i class="fa fa-shopping-basket p-1"  style="font-size:30px;color:grey;width:auto;float: left;margin-right: 0.5em;"></i>
-                        <span class="fw-bold ">Sepetiniz henüz boş.</span>
-                    </div>
+
+                     <?php
+                     if(!empty($_SESSION["cart"])){?>
+                        <style>
+                        .empty-basket{
+                            display:none;
+                        }
+                        </style>
+                        <div class="card-body fill-basket border p-0">
+                            <div class="row m-0 pt-2 pb-2" style="background-color:#eff0f2;">
+                                <a class="basket_res_name"  href="javascript:DoPost(<?php echo $items['res_id'];?>)" ><span> <?php echo $basket_res_name;?></span>, <span> <?php echo $basket_res_address; ?></span></a>
+                            </div>   
+                        </div>
+                        <?php
+                        $total = 0;
+                        foreach ($_SESSION["cart"] as $key => $value) {
+                            ?>
+                            <div class="row m-1 d-flex justify-content-between">
+                                <div class="col-5" style="max-width:110px;">
+                                    <span ><?php echo $value["item_name"]; ?></span>
+                                </div>
+                                <div class="col-auto" style="">
+                                    <span ><?php echo $value["item_quantity"]; ?></span>
+                                </div>
+                                <div class="col-auto" style="">
+                                    <span ><?php echo $value["product_price"]; ?></span>
+                                </div>
+                                <div class="col-auto">
+                                    <span> <?php echo number_format($value["item_quantity"] * $value["product_price"], 2); ?> TL</span>
+                                </div>
+                                <div class="col-auto" style="">
+                                    <span><a class="btn-remove" href="restaurant.php?action=delete&menu_id=<?php echo $value["product_id"]; ?>">
+                                    <span class="fw-bold">x</span></a></span>
+                                </div>
+                            </div>
+                            
+                                
+                                    
+                                
+                            <?php
+                            $total = $total + ($value["item_quantity"] * $value["product_price"]);
+                        }
+                            ?>
+                            <div class="row d-flex mt-3 m-1" style="justify-content:space-between">
+                                <div class="col-auto">
+                                    <span class="fw-bold" style="">Toplam</span>
+                                </div>
+                                <div class="col-auto">
+                                    <span style="color:#fa0050;font-weight:600;"> <?php echo number_format($total, 2); ?> TL</span>
+                                </div>
+                                
+                                
+                            </div>
+                            <div class="row p-0 m-0 mt-2">
+                                <button type="button" class="btn btn-success p-2 m-0">Sepete Ekle</button>
+                            </div>
+                            <?php
+                        }
+                        else
+                        {  ?>
+                            <div class="card-body empty-basket">
+                                <i class="fa fa-shopping-basket p-1"  style="font-size:30px;color:grey;width:auto;float: left;margin-right: 0.5em;"></i>
+                                <span class="fw-bold ">Sepetiniz henüz boş.</span>
+                                
+                            </div>  
+                  <?php }
+                    ?>     
                 </div>
 
                 <div class="card menu-card mt-3">
@@ -412,7 +513,7 @@
 
 
         
-            <div class="col-md-8">
+            <div class="col-md-8" style="max-width: 710px;">
 
                 <div class="top_info">
                     <div class="row pt-3" style="position: relative;"> 
@@ -448,10 +549,10 @@
                     //else echo "success";
 
                     
-                    
-                    if(isset($_GET["rest_name"]))
+                   
+                    if(isset( $_REQUEST['submit_btn']))
                     {
-                        $rest_nametemp = $_GET["rest_name"];
+                        $rest_nametemp = $_POST["rest_name"];
                         $query = "SELECT * FROM restaurants WHERE name LIKE '%$rest_nametemp%'";
                     }
 					else
@@ -462,6 +563,20 @@
                         
 						//$restaurants = $conn->query($city_res_query);
 					}
+                    
+                    /*if(isset($_POST["rest_name"]))
+                    {
+                        $rest_nametemp = $_POST["rest_name"];
+                        $query = "SELECT * FROM restaurants WHERE name LIKE '%$rest_nametemp%'";
+                    }
+					else
+					{
+                        
+						//$city_id=$_SESSION['city_id'];
+						$query="SELECT * FROM restaurants WHERE city_id='$city_id'";
+                        
+						//$restaurants = $conn->query($city_res_query);
+					}*/
                     $query_run = mysqli_query($conn, $query);
 					
                 

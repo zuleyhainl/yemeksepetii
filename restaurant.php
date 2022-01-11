@@ -1,4 +1,5 @@
 <?php
+session_set_cookie_params(0);
 session_start();
 $city_name = $_SESSION['city_name'];
 $user_name=$_SESSION['name'];
@@ -36,30 +37,54 @@ $user_name=$_SESSION['name'];
     //$con
 
     if (isset($_POST["add"])){
-        if (isset($_SESSION["cart"])){
-            $item_array_id = array_column($_SESSION["cart"],"product_id");
-            if (!in_array($_GET["menu_id"],$item_array_id)){
-                $count = count($_SESSION["cart"]);
-                $item_array = array(
-                    'product_id' => $_GET["menu_id"],
-                    'item_name' => $_POST["hidden_name"],
-                    'product_price' => $_POST["hidden_price"],
-                    'item_quantity' => $_POST["quantity"],
-                );
-                $_SESSION["cart"][$count] = $item_array;
-                echo '<script>window.location="restaurant.php" </script>';
-            }else{
-                echo '<script>alert("Menü daha önce sepete eklenmiş")</script>';
+        if (!empty($_SESSION["cart"])){
+            $basket_res_id = $_SESSION["basket_res_id"];
+            if($basket_res_id == $res_id)
+            {
+                $item_array_id = array_column($_SESSION["cart"],"product_id");
+                if (!in_array($_GET["menu_id"],$item_array_id)){
+                    $count = count($_SESSION["cart"]);
+                    $item_array = array(
+                        'product_id' => $_GET["menu_id"],
+                        'item_name' => $_POST["hidden_name"],
+                        'product_price' => $_POST["hidden_price"],
+                        'item_quantity' => $_POST["quantity"],
+                    );
+                    $_SESSION["cart"][$count] = $item_array;
+                    echo '<script>window.location="restaurant.php" </script>';
+                }else{
+                    echo '<script>alert("Menü daha önce sepete eklenmiş")</script>';
+                    echo '<script>window.location="restaurant.php"</script>';
+                }
+            }
+            else
+            {
+                echo '<script>alert("Sepetinizde başka restorana ait ürünler var!")</script>';
                 echo '<script>window.location="restaurant.php"</script>';
             }
+            
         }else{
             $item_array = array(
+                
                 'product_id' => $_GET["menu_id"],
                 'item_name' => $_POST["hidden_name"],
                 'product_price' => $_POST["hidden_price"],
                 'item_quantity' => $_POST["quantity"],
             );
+            $_SESSION["basket_res_id"] = $res_id;//bunu sadece ilk eklemede yapacak
             $_SESSION["cart"][0] = $item_array;
+
+            $basket_res_id = $_SESSION["basket_res_id"];
+            $query = "SELECT * FROM restaurants WHERE res_id='$basket_res_id'";
+            $result = mysqli_query($conn, $query);
+
+            if ($result->num_rows == 1) {
+                $row = mysqli_fetch_assoc($result);
+                $_SESSION['basket_res_name']= $row['name'];
+                $_SESSION['basket_res_address']= $row['address'];
+            } else {
+                echo "hata!";
+            }
         }
     }
 
@@ -70,6 +95,10 @@ $user_name=$_SESSION['name'];
                     unset($_SESSION["cart"][$keys]);
                     echo '<script>alert("Ürün kaldırılıyor")</script>';
                     echo '<script>window.location="restaurant.php"</script>';
+                    if(empyt($_SESSION['cart']))//sepet tamamen boşaldıysa sepetteki restoran bilgisini de serbest bırak
+                    {
+                        unset($_SESSION['basket_res_id']);
+                    }
                 }
             }
         }
@@ -83,13 +112,16 @@ $user_name=$_SESSION['name'];
 
         while($row=$restaurant_query->fetch_assoc())
 		{
-            $res_name = $row['name'];
+            $_SESSION['res_name'] = $row['name'];
 		    $res_desc = $row['descriptions'];
             $res_img_path = $row['img_path'];
             $res_min_price = $row['min_price'];
             $res_s_time = $row['service_time'];
-            $res_address = $row['address'];
+            $_SESSION['res_address'] = $row['address'];
         }
+        $res_address = $_SESSION['res_address'];
+        $res_name = $_SESSION['res_name'];
+
 
         /*while($row = mysqli_fetch_row($restaurant_query))
 	    {
@@ -262,8 +294,8 @@ $user_name=$_SESSION['name'];
           </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
           
-            <form class="d-flex" action="" method = "get">
-              <input class="form-control me-2" type="text" value="<?php if(isset($_GET['rest_name'])){echo $_GET['rest_name'];}?>" id="rest_name" name="rest_name" placeholder="Restoran arayın.." aria-label="Search">
+            <form class="d-flex" action="" method = "post">
+              <input class="form-control me-2" type="text" value="<?php if(isset($_POST['rest_name'])){echo $_POST['rest_name'];}?>" id="rest_name" name="rest_name" placeholder="Restoran arayın.." aria-label="Search">
               <button class="btn btn-outline-light" type="submit"><i class="bi bi-search"></i></button>
             </form>
           </div>
@@ -310,7 +342,10 @@ $user_name=$_SESSION['name'];
                         </style>
                         <div class="card-body fill-basket border p-0">
                             <div class="row m-0 pt-2 pb-2" style="background-color:#eff0f2;">
-                                <a class="basket_res_name"  href="restaurant.php?res_id=<?php echo $res_id; ?>" ><span> <?php echo $res_name?></span>,<span> <?php echo $res_address ?></span></a>
+                                <a class="basket_res_name"  href="restaurant.php" ><span> <?php
+                                $basket_res_name = $_SESSION['basket_res_name'];
+                                $basket_res_address = $_SESSION['basket_res_address'];
+                                echo $basket_res_name?></span>,<span> <?php echo $basket_res_address ?></span></a>
                             </div>   
                         </div>
                         <?php
@@ -478,7 +513,7 @@ $user_name=$_SESSION['name'];
                                         ?>
                                                                             
                                                     <div class="col-auto mt-3" style="max-width: 190px;">
-                                                        <form method="post" action="restaurant.php?action=add&menu_id=<?php echo $items["menu_id"]; ?>">
+                                                        <form method="post" action="restaurant.php?action=add&menu_id=<?php echo $items["menu_id"]; ?>" name="add_menu">
                                                             <div class="menu" style="display:inline;">
                                                                 <img src="<?php echo $items['img_path'];?>" style="height: 170px;display: block;">
                                                                 <a  class="menu-name fw-bold pt-2" href="#menu"><?php echo $items['menu_name'];?></a>
@@ -601,8 +636,9 @@ $user_name=$_SESSION['name'];
     <script language="javascript"> 
 
         function LogOut(){
-            session_destroy();
+            
             window.location.href = "MainPage.php";
+            //session_destroy();
         }
 
     </script>
