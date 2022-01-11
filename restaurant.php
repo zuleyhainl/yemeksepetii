@@ -1,5 +1,6 @@
 <?php
 session_start();
+$city_name = $_SESSION['city_name'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -233,6 +234,15 @@ session_start();
             color:orange;
             font-size:14px;
         }
+        .btn-remove, .btn-remove span{
+            text-decoration:none;
+            color:#fa0050;
+          
+        }
+        .btn-remove:hover span {
+            color:orange;
+            
+        }
   
         
                     
@@ -242,10 +252,26 @@ session_start();
 
 </head>
 <body>
+
+    <nav class="navbar navbar-expand-md fixed-top py-2 z-depth-5" style="background-color:#fa0050;">   
+        <div class="container">
+          <a class="navbar-brand p-3" href="#"><img src="https://assets.yemeksepeti.com/images/ys-new-logo.svg"></a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+          
+            <form class="d-flex" action="" method = "get">
+              <input class="form-control me-2" type="text" value="<?php if(isset($_GET['rest_name'])){echo $_GET['rest_name'];}?>" id="rest_name" name="rest_name" placeholder="Restoran arayın.." aria-label="Search">
+              <button class="btn btn-outline-light" type="submit"><i class="bi bi-search"></i></button>
+            </form>
+          </div>
+        </div>
+    </nav>
    
 
-    <div class="row mt-3" style="">
-        <div class="top-state mt"> 
+    <div class="row mt-5" style="">
+        <div class="top-state"> 
             <div class="container"> 
                 <div class="row"> 
                 </div>
@@ -254,7 +280,7 @@ session_start();
                 <div class="row mt-5"> 
                     <div class="col-16-3" style="z-index: 1; --bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item "><a href="#" style="color: #fa0050;font-size: 11px;">İl ismi </a></li>
+                            <li class="breadcrumb-item "><a href="#" style="color: #fa0050;font-size: 11px;"><?php echo $city_name;?></a></li>
                             <li class="breadcrumb-item active" style="color:black;" aria-current="page"><?php echo $res_name?></li>
                         </ol>
                     </div> 
@@ -290,22 +316,22 @@ session_start();
                         $total = 0;
                         foreach ($_SESSION["cart"] as $key => $value) {
                             ?>
-                            <div class="row m-1">
-                                <div class="col-5" style="display:inline;float:left;max-width:110px;">
+                            <div class="row m-1 d-flex justify-content-between">
+                                <div class="col-5" style="max-width:110px;">
                                     <span ><?php echo $value["item_name"]; ?></span>
                                 </div>
-                                <div class="col-auto" style="display:inline;float:left;">
+                                <div class="col-auto" style="">
                                     <span ><?php echo $value["item_quantity"]; ?></span>
                                 </div>
-                                <div class="col-auto">
+                                <div class="col-auto" style="">
                                     <span ><?php echo $value["product_price"]; ?></span>
                                 </div>
                                 <div class="col-auto">
                                     <span> <?php echo number_format($value["item_quantity"] * $value["product_price"], 2); ?> TL</span>
                                 </div>
-                                <div class="col-auto">
-                                    <span><a href="restaurant.php?action=delete&menu_id=<?php echo $value["product_id"]; ?>">
-                                    <span class="text-danger">x</span></a></span>
+                                <div class="col-auto" style="">
+                                    <span><a class="btn-remove" href="restaurant.php?action=delete&menu_id=<?php echo $value["product_id"]; ?>">
+                                    <span class="fw-bold">x</span></a></span>
                                 </div>
                             </div>
                             
@@ -369,7 +395,7 @@ session_start();
                             <li><a class="dropdown-item" href="#">Favorilerim</a></li>
                             <li><a class="dropdown-item" href="#">Adreslerim</a></li>
                             <li><a class="dropdown-item" href="#">Bilgilerim</a></li>
-                            <li><a class="dropdown-item" href="#">Çıkış Yap</a></li>
+                            <li><a class="dropdown-item" href="javascript:LogOut()">Çıkış Yap</a></li>
                             </ul>
                         </div>
                      
@@ -571,7 +597,16 @@ session_start();
                                              
 
 
-      </script>
+    <script language="javascript"> 
+
+        function LogOut(){
+            session_destroy();
+            window.location.href = "MainPage.php";
+        }
+
+    </script>
+
+
 
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

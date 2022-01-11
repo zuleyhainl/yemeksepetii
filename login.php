@@ -44,6 +44,7 @@ if (isset($_POST['UserName']) && isset($_POST['Password'])) {
 						$_SESSION['name'] = $row['name'];
 						$_SESSION['user_id'] = $row['user_id'];
 						$_SESSION['city_id']= $row['city_id'];
+						//$_SESSION['city_name']= $row['city'];
 						header("Location:list.php");	
 						exit();
 					}else if($row['email'] === $uname_email){
@@ -52,6 +53,7 @@ if (isset($_POST['UserName']) && isset($_POST['Password'])) {
 						$_SESSION['name'] = $row['name'];
 						$_SESSION['user_id'] = $row['user_id'];
 						$_SESSION['city_id']= $row['city_id'];
+						//$_SESSION['city_name']= $row['city'];
 						header("Location:list.php");
 						exit();
 					}

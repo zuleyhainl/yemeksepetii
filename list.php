@@ -1,6 +1,26 @@
 <?php
 		session_start();
+
+        include "config.php";
+                    
+        if($conn->connect_error)
+        {
+            echo "connection_aborted";
+        }
+        //else echo "success";    
+
         $user_name=$_SESSION['name'];
+        $city_id=$_SESSION['city_id'];
+        $query = "SELECT * FROM cities WHERE city_id='$city_id'";
+        $result = mysqli_query($conn, $query);
+
+        if ($result->num_rows == 1) {
+            $row = mysqli_fetch_assoc($result);
+            $_SESSION['city_name']= $row['city'];
+            $city_name = $_SESSION['city_name'];
+          } else {
+            echo "hata!";
+          }
         
 	?>
 <!DOCTYPE html>
@@ -175,16 +195,32 @@
             <div class="row "></div>
         </div>
     </header>-->
+
+    <nav class="navbar navbar-expand-md static-top py-2 z-depth-5" style="background-color:#fa0050;">
+        <div class="container">
+          <a class="navbar-brand p-3" href="#"><img src="https://assets.yemeksepeti.com/images/ys-new-logo.svg"></a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+          
+            <form class="d-flex" action="" method = "get">
+              <input class="form-control me-2" type="text" value="<?php if(isset($_GET['rest_name'])){echo $_GET['rest_name'];}?>" id="rest_name" name="rest_name" placeholder="Restoran arayın.." aria-label="Search">
+              <button class="btn btn-outline-light" type="submit"><i class="bi bi-search"></i></button>
+            </form>
+          </div>
+        </div>
+    </nav>
   
 
 
 
-    <div class="top-state mt-5"> 
+    <div class="top-state"> 
         <div class="top-image"> <img src="//cdn.yemeksepeti.com/App_Themes/SiteHeaders/Yemeksonuc.jpg"  style="top: -40px;"> </div> 
         <div class="container"> 
             <div class="row"> 
                 <div class="col-16-3" style="z-index: 1; --bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
-                    <h1 style="font-size:24px;max-width: 740px; line-height: 31px;font-weight: 700;">
+                    <h1 class="pt-3" style="font-size:24px;max-width: 740px; line-height: 31px;font-weight: 700;">
                     <?php
                     if(isset($_GET["rest_name"]))
                     {
@@ -201,8 +237,8 @@
                     ?>
                      <?php echo $rest_nametemp;?></h1>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item "><a href="#" style="color: #fa0050;font-size: 11px;">Ankara İlindeki Döner Restoranları </a></li>
-                        <li class="breadcrumb-item active" style="color:black;" aria-current="page">Döner</li>
+                        <li class="breadcrumb-item "><a href="#" style="color: #fa0050;font-size: 11px;"><?php echo $city_name; ?> İlindeki Restoranlar </a></li>
+                        <li class="breadcrumb-item active" style="color:black;" aria-current="page">Arama Sonuçları</li>
                       </ol>
                 </div> 
             </div>
@@ -409,7 +445,9 @@
                     {
                         echo "connection_aborted";
                     }
-                    else echo "success";
+                    //else echo "success";
+
+                    
                     
                     if(isset($_GET["rest_name"]))
                     {
@@ -419,8 +457,9 @@
 					else
 					{
                         
-						$city_id=$_SESSION['city_id'];
+						//$city_id=$_SESSION['city_id'];
 						$query="SELECT * FROM restaurants WHERE city_id='$city_id'";
+                        
 						//$restaurants = $conn->query($city_res_query);
 					}
                     $query_run = mysqli_query($conn, $query);
@@ -451,7 +490,7 @@
 
                                     <div class="col-9 resinfo">
                                        
-                                        <a class="res_name"  href="javascript:DoPost(<?php echo $items['res_id'];?>)"> <?php echo $items['name'];?>, <?php echo $items['address'];?></a>
+                                        <a class="res_name" href="javascript:DoPost(<?php echo $items['res_id'];?>)"> <?php echo $items['name'];?>, <?php echo $items['address'];?></a>
                                     </div>
                                 </div>
                             <div class="row">

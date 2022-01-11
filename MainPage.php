@@ -13,7 +13,7 @@
 		<div class="container">
 			<div class="row form-group">
 				<div class="col-sm-4">
-					<a href="./index.html">Yemeksepeti</a>
+					<a href="./MainPage.php">Yemeksepeti</a>
 				</div>
 				<!--<div class="col-sm-4 form">
 					<select class="form-control" id="city" name="city" onchange="getDistricts(this.value)">
