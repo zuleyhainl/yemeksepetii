@@ -1,3 +1,7 @@
+<?php
+	session_start();
+	$_SESSION['token'] = bin2hex(random_bytes(24));
+?>
 <html>
 <head>
 	<title>Ana Sayfa</title>
@@ -38,7 +42,6 @@
 											<div class="login-panel"> 
 												<h3>Giriş Yap</h3> <br> 
 												<form id="login-form" class="form-horizontal" role="form" action="login.php" method="post"> 
-													<input name="__RequestVerificationToken" type="hidden" value="vg2HDeEXk_Viy4ijMWrHla8XEuz_KvL310ktunF2ztT3_lBOpzWdWseAmNGxAdT2F8Fy5HIyRYKx56z0mVcWWv7RMak1"> 
 													<div class="form-group"> 
 														<label for="inputEmail3">Kullanıcı Adı / E-Posta</label> 
 														<div> 
@@ -56,6 +59,7 @@
 													</div>
 													<?php if (isset($_GET['error'])) { ?><p class="error"><?php echo $_GET['error']; ?></p><?php } ?>
 													<input type="hidden" value="/siparis" name="Referrer"> 
+													<input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
 												</form> 
 											</div> 
 										</div> 

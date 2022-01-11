@@ -33,6 +33,7 @@
 
         $user_name=$_SESSION['name'];
         $city_id=$_SESSION['city_id'];
+		$city_id=str_replace("'","*****",$city_id);
         $query = "SELECT * FROM cities WHERE city_id='$city_id'";
         $result = mysqli_query($conn, $query);
 
@@ -186,8 +187,7 @@
             color:black;
             font-weight: 600;
             text-decoration:none;
-        }
-        .res_name:hover{
+			.res_name:hover{
             color:#fa0050;
         }
 
@@ -534,7 +534,12 @@
 
                 <?php
                 
-					
+					function validate($data){
+						$data = trim($data);
+						$data = stripslashes($data);
+						$data = htmlspecialchars($data);
+						return $data;
+					}
                     //include "config.php";
                     $servername = "localhost";
                     $username = "root";
@@ -549,15 +554,22 @@
                     //else echo "success";
 
                     
-                   
+                    
                     if(isset( $_REQUEST['submit_btn']))
                     {
-                        $rest_nametemp = $_POST["rest_name"];
-                        $query = "SELECT * FROM restaurants WHERE name LIKE '%$rest_nametemp%'";
+						if (hash_equals($_SESSION['token'], $_POST['token'])) {
+							$rest_nametemp = validate($_POST['rest_name']);
+							$rest_nametemp=str_replace("'","*****",$rest_nametemp);
+							$query = "SELECT * FROM restaurants WHERE name LIKE '%$rest_nametemp%'";
+						}
+						else{
+							echo "Risk of CSRF attack";
+						}
                     }
 					else
 					{
-                        
+                        $city_id = validate($city_id);
+						$city_id=str_replace("'","*****",$city_id);
 						//$city_id=$_SESSION['city_id'];
 						$query="SELECT * FROM restaurants WHERE city_id='$city_id'";
                         
