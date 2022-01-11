@@ -11,6 +11,7 @@
 
         $user_name=$_SESSION['name'];
         $city_id=$_SESSION['city_id'];
+		$city_id=str_replace("'","*****",$city_id);
         $query = "SELECT * FROM cities WHERE city_id='$city_id'";
         $result = mysqli_query($conn, $query);
 
@@ -162,8 +163,7 @@
             color:black;
             font-weight: 600;
             text-decoration:none;
-        }
-        .res_name:hover{
+			.res_name:hover{
             color:#fa0050;
         }
 
@@ -204,9 +204,10 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
           
-            <form class="d-flex" action="" method = "get">
-              <input class="form-control me-2" type="text" value="<?php if(isset($_GET['rest_name'])){echo $_GET['rest_name'];}?>" id="rest_name" name="rest_name" placeholder="Restoran arayın.." aria-label="Search">
-              <button class="btn btn-outline-light" type="submit"><i class="bi bi-search"></i></button>
+            <form class="d-flex" action="" method = "post">
+				<input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
+				<input class="form-control me-2" type="text" value="<?php if(isset($_POST['rest_name'])){echo $_POST['rest_name'];}?>" id="rest_name" name="rest_name" placeholder="Restoran arayın.." aria-label="Search">
+				<button class="btn btn-outline-light" type="submit"><i class="bi bi-search"></i></button>
             </form>
           </div>
         </div>
@@ -433,7 +434,12 @@
 
                 <?php
                 
-					
+					function validate($data){
+						$data = trim($data);
+						$data = stripslashes($data);
+						$data = htmlspecialchars($data);
+						return $data;
+					}
                     //include "config.php";
                     $servername = "localhost";
                     $username = "root";
@@ -449,14 +455,21 @@
 
                     
                     
-                    if(isset($_GET["rest_name"]))
+                    if(isset($_POST["rest_name"]))
                     {
-                        $rest_nametemp = $_GET["rest_name"];
-                        $query = "SELECT * FROM restaurants WHERE name LIKE '%$rest_nametemp%'";
+						if (hash_equals($_SESSION['token'], $_POST['token'])) {
+							$rest_nametemp = validate($_POST['rest_name']);
+							$rest_nametemp=str_replace("'","*****",$rest_nametemp);
+							$query = "SELECT * FROM restaurants WHERE name LIKE '%$rest_nametemp%'";
+						}
+						else{
+							echo "Risk of CSRF attack";
+						}
                     }
 					else
 					{
-                        
+                        $city_id = validate($city_id);
+						$city_id=str_replace("'","*****",$city_id);
 						//$city_id=$_SESSION['city_id'];
 						$query="SELECT * FROM restaurants WHERE city_id='$city_id'";
                         

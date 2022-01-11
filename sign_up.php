@@ -1,3 +1,6 @@
+<?php
+	session_start();
+?>
 <html>
 <head>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -31,7 +34,6 @@
 									<div class="col-16-9 pull-left"> 
 										<h3 class="formHeader">E-posta ile Üye Ol</h3> <br> 
 										<form class="form-horizontal" role="form" action="signup.php" method="post" id="register-form"> 
-											<input name="__RequestVerificationToken" type="hidden" value="CbSa5bRPQD-dhZAc1oHWOCW-1MPZdG3KYlltxNa0qUYYlpNz_oqN-d3vZHT0xLT_qrRXXghLzW6GNhtU7M4YSaA9cV41"> 
 											<div class="form-group"> 
 												<label for="inputEmail" class="col-16-3 control-label" title="* İşaretli alanların doldurulması zorunludur.">
 													<span class="required">*</span> E-Posta:
@@ -101,6 +103,7 @@
 												</div> 
 											</div> 
 											<input type="hidden" value="/siparis" name="Referrer"> 
+											<input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
 										</form> 
 									</div> 
 								</div> 
@@ -112,7 +115,6 @@
 				</div> 
 			</div> 
 		</div> 
-		<script language="JavaScript" type="text/javascript" src="//assets.yemeksepeti.com/scripts/ysapp.min.js?v=9c6a0f08a127372293fd649011c8e6dc7127e983"></script> 
 		<script defer="" src="https://static.cloudflareinsights.com/beacon.min.js/v652eace1692a40cfa3763df669d7439c1639079717194" integrity="sha512-Gi7xpJR8tSkrpF7aordPZQlW2DLtzUlZcumS8dMQjwDHEnw9I7ZLyiOj/6tZStRBGtGgN6ceN6cMH8z7etPGlw==" data-cf-beacon="{&quot;rayId&quot;:&quot;6ca7b7c20d53625c&quot;,&quot;token&quot;:&quot;7d2642b2a57a4f88acb4591979c147f1&quot;,&quot;version&quot;:&quot;2021.12.0&quot;,&quot;si&quot;:100}" crossorigin="anonymous"></script>
 		<div id="cboxOverlay" style="display: none;">
 		</div>
@@ -156,7 +158,6 @@
 			</div>
 		</div>
 		<iframe src="https://a2232010246.cdn.optimizely.com/client_storage/a2232010246.html" hidden="" tabindex="-1" title="Optimizely Internal Frame" height="0" width="0" style="display: none;"></iframe>
-		<script src="https://analytics.twitter.com/i/adsct?type=javascript&amp;version=2.0.4&amp;p_id=Twitter&amp;p_user_id=0&amp;txn_id=l58l0&amp;tw_sale_amount=0&amp;tw_order_quantity=0&amp;tw_iframe_status=0&amp;event_id=88e4c590-eeb4-4584-bc28-b243ab264931&amp;tw_document_href=https%3A%2F%2Fwww.yemeksepeti.com%2Fankara-uye-ol%3Freferrer%3D%252Fsiparis&amp;tpx_cb=twttr.conversion.loadPixels" type="text/javascript"></script>
 		<iframe src="https://bid.g.doubleclick.net/xbbe/pixel?d=KAE" style="display: none;"></iframe>
 	</body>
 </html>
