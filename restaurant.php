@@ -1,5 +1,5 @@
 <?php
-session_set_cookie_params(0);
+//session_set_cookie_params(0);
 session_start();
 $city_name = $_SESSION['city_name'];
 $user_name=$_SESSION['name'];
@@ -20,32 +20,39 @@ $user_name=$_SESSION['name'];
     
     if(isset($_POST['res_id']))
     {
+        //echo "zzzzzzzzzzzzzz";
+        if (hash_equals($_SESSION['token'], $_POST['token'])) {
         $res_id = $_POST["res_id"];  
         $_SESSION["res_id"] = $res_id;  
+        }
+        else{
+            echo "Risk of CSRF attack";
+        }
     }
     else
     {
+        //echo "zzzzzzzzzzzzzz";
         //$res_id = $_GET["res_id"];
         $res_id = $_SESSION["res_id"];
     }
     
-    
+
     
 
     
     
     //$con
 
-    if (isset($_POST["add"])){
+    if (isset($_POST["add_hidden"])){
         if (!empty($_SESSION["cart"])){
             $basket_res_id = $_SESSION["basket_res_id"];
             if($basket_res_id == $res_id)
             {
                 $item_array_id = array_column($_SESSION["cart"],"product_id");
-                if (!in_array($_GET["menu_id"],$item_array_id)){
+                if (!in_array($_POST["menu_id_hidden"],$item_array_id)){
                     $count = count($_SESSION["cart"]);
                     $item_array = array(
-                        'product_id' => $_GET["menu_id"],
+                        'product_id' => $_POST["menu_id_hidden"],
                         'item_name' => $_POST["hidden_name"],
                         'product_price' => $_POST["hidden_price"],
                         'item_quantity' => $_POST["quantity"],
@@ -66,7 +73,7 @@ $user_name=$_SESSION['name'];
         }else{
             $item_array = array(
                 
-                'product_id' => $_GET["menu_id"],
+                'product_id' => $_POST["menu_id_hidden"],
                 'item_name' => $_POST["hidden_name"],
                 'product_price' => $_POST["hidden_price"],
                 'item_quantity' => $_POST["quantity"],
@@ -88,10 +95,10 @@ $user_name=$_SESSION['name'];
         }
     }
 
-    if (isset($_GET["action"])){
-        if ($_GET["action"] == "delete"){
+    if (isset($_POST["delete_hidden"])){
+        //($_GET["action"] == "delete_menu"){
             foreach ($_SESSION["cart"] as $keys => $value){
-                if ($value["product_id"] == $_GET["menu_id"]){
+                if ($value["product_id"] == $_POST["menu_id_hidden"]){
                     unset($_SESSION["cart"][$keys]);
                     echo '<script>alert("Ürün kaldırılıyor")</script>';
                     echo '<script>window.location="restaurant.php"</script>';
@@ -101,7 +108,7 @@ $user_name=$_SESSION['name'];
                     }
                 }
             }
-        }
+        //}
     }
 
         //$last_sc_id = $_GET["card_id"];
@@ -276,6 +283,10 @@ $user_name=$_SESSION['name'];
             color:orange;
             
         }
+        input[type="text" name="quantity"]
+        {
+            font-size:10px;
+        }
   
         
                     
@@ -366,8 +377,15 @@ $user_name=$_SESSION['name'];
                                     <span> <?php echo number_format($value["item_quantity"] * $value["product_price"], 2); ?> TL</span>
                                 </div>
                                 <div class="col-auto" style="">
-                                    <span><a class="btn-remove" href="restaurant.php?action=delete&menu_id=<?php echo $value["product_id"]; ?>">
-                                    <span class="fw-bold">x</span></a></span>
+
+
+                                    <form method="post" action="" name="delete_menu" id="delete_menu">
+                                            <input type="hidden" name="menu_id_hidden" value="<?php echo $value["product_id"];?>">
+                                            <input type="hidden" name="delete_hidden" value="delete">                       
+                                        <!--<span><a class="btn-remove" href="javascript:delete()">
+                                        <span class="fw-bold">x</span></a></span>-->
+                                        <input type="submit" name="delete" style="margin-top: 5px;border:none;" class="btn-remove" value="x">
+                                    </form>
                                 </div>
                             </div>
                             
@@ -455,17 +473,17 @@ $user_name=$_SESSION['name'];
             <div class="col-md-8" style="max-width: 610px;">
                 <div class="row border"> 
                     <div class="col-auto logo">
-                            <img src="<?php echo $res_img_path?>" style="object-fit: scale-down;margin:0;width: 100%;">                    
+                            <img src="<?php echo $res_img_path?>" style="object-fit: scale-down;margin:0;padding:0;width: 100%;">                    
                     </div>
                     <div class="col-auto">
                         <div class="row">
-                            <span class="p-3 fw-bold fs-6"><?php echo $res_name?>, <?php echo $res_address?></span>
+                            <span class="pt-3 pb-3 fw-bold" style="font-size:14px;"><?php echo $res_name?>, <?php echo $res_address?></span>
                         </div>
                         <div class="row">
                             <div class="col-auto">
                                 <div class="point">Hız <br><span class="fw-bold" style="font-size: 15px;">9,4</span></div>
-                                <div class="point">Servis <br><span class="fw-bold" style="font-size: 15px;">9,4</span></div>
-                                <div class="point">Lezzet<br><span class="fw-bold" style="font-size: 15px;">9,4</span></div>
+                                <div class="point">Servis <br><span class="fw-bold" style="font-size: 15px;">8,6</span></div>
+                                <div class="point">Lezzet<br><span class="fw-bold" style="font-size: 15px;">9,1</span></div>
                             </div>
                             <div class="col-auto">
                                 <img src="https://www.yemeksepeti.com/assets/images/medium-min-price-icon.png" style="height: 16px;display: block;">
@@ -513,12 +531,14 @@ $user_name=$_SESSION['name'];
                                         ?>
                                                                             
                                                     <div class="col-auto mt-3" style="max-width: 190px;">
-                                                        <form method="post" action="restaurant.php?action=add&menu_id=<?php echo $items["menu_id"]; ?>" name="add_menu">
+                                                        <form method="post" action="" name="add_menu">
+                                                            <input type="hidden" name="menu_id_hidden" value="<?php echo $items["menu_id"];?>">
+                                                            <input type="hidden" name="add_hidden" value="add">
                                                             <div class="menu" style="display:inline;">
                                                                 <img src="<?php echo $items['img_path'];?>" style="height: 170px;display: block;">
                                                                 <a  class="menu-name fw-bold pt-2" href="#menu"><?php echo $items['menu_name'];?></a>
                                                                 <span  class="fw-bold" style="display: block;"><?php echo $items['description'];?></span>
-                                                                <input type="text" name="quantity" class="form-control m-0" value="1" style="display:inline;max-width:30px;padding:1px 8px;">
+                                                                <input type="text" name="quantity" class="form-control m-0" value="1" style="display:inline;max-width:35px;padding:1px 8px;font-size:14px;">
                                                                 <input type="hidden" name="hidden_name" value="<?php echo $items["menu_name"]; ?>">
                                                                 <input type="hidden" name="hidden_price" value="<?php echo $items["price"]; ?>">
                                                                 <input type="submit" name="add" style="margin-top: 5px;border:none;" class="point-add mt-2" value="+">
@@ -642,7 +662,6 @@ $user_name=$_SESSION['name'];
         }
 
     </script>
-
 
 
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>

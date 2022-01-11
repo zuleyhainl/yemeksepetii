@@ -1,15 +1,14 @@
 <?php
-		session_start();
-
         include "config.php";
-                    
+                            
         if($conn->connect_error)
         {
             echo "connection_aborted";
         }
-        //else echo "success";   
-        
-        
+        //else echo "success"; 
+        //session_set_cookie_params(0);
+		session_start();
+
         $item_array = $_SESSION["cart"];
         $basket_res_id = $_SESSION["basket_res_id"];
         
@@ -30,9 +29,7 @@
             }
         }
         
-
-
-
+           
 
         $user_name=$_SESSION['name'];
         $city_id=$_SESSION['city_id'];
@@ -47,6 +44,8 @@
           } else {
             echo "hata!";
           }
+
+        
         
 	?>
 <!DOCTYPE html>
@@ -153,7 +152,7 @@
    
         @media (min-width: 1px){
             .col-md-4 {
-                
+                /*width: 25%;*/
                 float: left;
             }
         }
@@ -206,9 +205,7 @@
             color:orange;
             
         }
-
-
-            
+        
 
     </style>
         
@@ -217,20 +214,25 @@
 
 <body>
 	
-
-    <nav class="navbar navbar-expand-md static-top py-2 z-depth-5" style="background-color:#fa0050;">
+    <nav class="navbar navbar-expand-md fixed-top py-2 z-depth-5" style="background-color:#fa0050;">
         <div class="container">
           <a class="navbar-brand p-3" href="#"><img src="https://assets.yemeksepeti.com/images/ys-new-logo.svg"></a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
-          
-            <form class="d-flex" action="" method = "post">
-				<input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
-				<input class="form-control me-2" type="text" value="<?php if(isset($_POST['rest_name'])){echo $_POST['rest_name'];}?>" id="rest_name" name="rest_name" placeholder="Restoran arayın.." aria-label="Search">
-				<button class="btn btn-outline-light" type="submit"><i class="bi bi-search"></i></button>
+
+
+          <form class="d-flex" action="" method = "post">
+                <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
+                <input class="form-control me-2" type="text" value="<?php if(isset($_POST['rest_name'])){echo $_POST['rest_name'];}?>" id="rest_name" name="rest_name" placeholder="Restoran arayın.." aria-label="Search">
+                <button class="btn btn-outline-light" type="submit"><i class="bi bi-search"></i></button>
             </form>
+          
+            <!--<form class="d-flex" action="" method = "POST">
+              <input class="form-control me-2" type="text" id="rest_name" name="rest_name" placeholder="Restoran arayın.." aria-label="Search">
+              <button class="btn btn-outline-light" type="submit" name="submit_btn"><i class="bi bi-search"></i></button>
+            </form>-->
           </div>
         </div>
     </nav>
@@ -238,7 +240,7 @@
 
 
 
-    <div class="top-state"> 
+    <div class="top-state p-3" style="margin-top:60px;"> 
         <div class="top-image"> <img src="//cdn.yemeksepeti.com/App_Themes/SiteHeaders/Yemeksonuc.jpg"  style="top: -40px;"> </div> 
         <div class="container"> 
             <div class="row"> 
@@ -279,8 +281,7 @@
                         <span>YEMEK SEPETİM</span>
                     </div>
 
-
-                    <?php
+                     <?php
                      if(!empty($_SESSION["cart"])){?>
                         <style>
                         .empty-basket{
@@ -381,9 +382,8 @@
 
         
 
-
         
-            <div class="col-md-8">
+            <div class="col-md-8" style="max-width: 710px;">
 
                 <div class="top_info">
                     <div class="row pt-3" style="position: relative;"> 
@@ -425,9 +425,40 @@
 
                     
                     
-                    if(isset($_POST["rest_name"]))
+                    /*if(isset($_REQUEST['submit_btn']))
                     {
-						if (hash_equals($_SESSION['token'], $_POST['token'])) {
+					
+							/*$rest_nametemp = $_POST['rest_name'];
+				
+							$query = "SELECT * FROM restaurants WHERE name LIKE '%$rest_nametemp%'";
+				
+                        if (hash_equals($_SESSION['token'], $_REQUEST['token'])) {
+							$rest_nametemp = validate($_POST['rest_name']);
+							$rest_nametemp=str_replace("'","*****",$rest_nametemp);
+							$query = "SELECT * FROM restaurants WHERE name LIKE '%$rest_nametemp%'";
+						}
+						else{
+							echo "Risk of CSRF attack";
+						}
+                    }
+					else
+					{
+                        $city_id = validate($city_id);
+						$city_id=str_replace("'","*****",$city_id);
+						//$city_id=$_SESSION['city_id'];
+						$query="SELECT * FROM restaurants WHERE city_id='$city_id'";
+                        
+						//$restaurants = $conn->query($city_res_query);
+					}*/
+
+                    if(isset( $_POST['rest_name']))
+                    {
+					
+							/*$rest_nametemp = $_POST['rest_name'];
+				
+							$query = "SELECT * FROM restaurants WHERE name LIKE '%$rest_nametemp%'";*/
+				
+                        if (hash_equals($_SESSION['token'], $_POST['rest_name'])) {
 							$rest_nametemp = validate($_POST['rest_name']);
 							$rest_nametemp=str_replace("'","*****",$rest_nametemp);
 							$query = "SELECT * FROM restaurants WHERE name LIKE '%$rest_nametemp%'";
@@ -445,6 +476,7 @@
                         
 						//$restaurants = $conn->query($city_res_query);
 					}
+                    
                     $query_run = mysqli_query($conn, $query);
 					
                 
@@ -550,4 +582,5 @@
         
     </body>
 </html>    
+
 
