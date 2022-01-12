@@ -9,26 +9,31 @@
         }
         //else echo "success";   
         
-        
-        $item_array = $_SESSION["cart"];
-        $basket_res_id = $_SESSION["basket_res_id"];
-        
-        if(!empty($_SESSION['cart']))
+        if(isset($_SESSION["cart"]) && isset($_SESSION["basket_res_id"]))
         {
+            $item_array = $_SESSION["cart"];
+            $basket_res_id = $_SESSION["basket_res_id"];
 
-            $query = "SELECT * FROM restaurants WHERE res_id='$basket_res_id'";
-            $result = mysqli_query($conn, $query);
+            if(!empty($_SESSION['cart']))
+            {
 
-            if ($result->num_rows == 1) {
-                $row = mysqli_fetch_assoc($result);
-                $_SESSION['basket_res_name']= $row['name'];
-                $_SESSION['basket_res_address']= $row['address'];
-                $basket_res_name = $_SESSION['basket_res_name'];
-                $basket_res_address = $_SESSION['basket_res_address'];
-            } else {
-                echo "hata!";
+                $query = "SELECT * FROM restaurants WHERE res_id='$basket_res_id'";
+                $result = mysqli_query($conn, $query);
+
+                if ($result->num_rows == 1) {
+                    $row = mysqli_fetch_assoc($result);
+                    $_SESSION['basket_res_name']= $row['name'];
+                    $_SESSION['basket_res_address']= $row['address'];
+                    $basket_res_name = $_SESSION['basket_res_name'];
+                    $basket_res_address = $_SESSION['basket_res_address'];
+                } else {
+                    echo "hata!";
+                }
             }
         }
+        
+        
+        
         
 
 
@@ -190,6 +195,11 @@
             text-decoration:none;
             color:#fa0050;
         }
+        .res_name:hover{
+
+            color:orange;
+
+        }
 
         .basket_res_name, .basket_res_name:hover{
             color:orange;
@@ -310,8 +320,15 @@
                                     <span> <?php echo number_format($value["item_quantity"] * $value["product_price"], 2); ?> TL</span>
                                 </div>
                                 <div class="col-auto" style="">
-                                    <span><a class="btn-remove" href="restaurant.php?action=delete&menu_id=<?php echo $value["product_id"]; ?>">
-                                    <span class="fw-bold">x</span></a></span>
+                                    <!--<span><a class="btn-remove" href="restaurant.php?action=delete&menu_id=<?php echo $value["product_id"]; ?>">
+                                    <span class="fw-bold">x</span></a></span>-->
+                                    <form method="post" action="Restaurant.php" name="delete_menu" id="delete_menu">
+                                            <input type="hidden" name="menu_id_hidden" value="<?php echo $value["product_id"];?>">
+                                            <input type="hidden" name="delete_hidden" value="delete">                       
+                                        <!--<span><a class="btn-remove" href="javascript:delete()">
+                                        <span class="fw-bold">x</span></a></span>-->
+                                        <input type="submit" name="delete" style="margin-top: 5px;border:none;" class="btn-remove" value="x">
+                                    </form>
                                 </div>
                             </div>
                             

@@ -21,13 +21,13 @@ $user_name=$_SESSION['name'];
     if(isset($_POST['res_id']))
     {
         //echo "zzzzzzzzzzzzzz";
-        if (hash_equals($_SESSION['token'], $_POST['token'])) {
+        //if (hash_equals($_SESSION['token'], $_POST['token'])) {
         $res_id = $_POST["res_id"];  
         $_SESSION["res_id"] = $res_id;  
-        }
+        /*}
         else{
             echo "Risk of CSRF attack";
-        }
+        }*/
     }
     else
     {
@@ -326,6 +326,7 @@ $user_name=$_SESSION['name'];
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item "><a href="#" style="color: #fa0050;font-size: 11px;"><?php echo $city_name;?></a></li>
                             <li class="breadcrumb-item active" style="color:black;" aria-current="page"><?php echo $res_name?></li>
+                            <li class="breadcrumb-item "><a href="list.php" style="color: #fa0050;font-size: 11px;">Bir önceki sayfa</a></li>
                         </ol>
                     </div> 
                 </div>
