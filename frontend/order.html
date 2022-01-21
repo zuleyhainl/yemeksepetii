@@ -1,0 +1,344 @@
+<?php 
+  $cart = $_SESSION["cart"];
+  include("utils.php");
+  $total_price = 0;
+  foreach($cart as &$item){ 
+    $total_price+=$item["product_price"]*$item["item_quantity"];
+  }
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <title>Sipariş Onay Ekranı</title>
+  <link rel="stylesheet" href="frontend/order.css">
+  <script src="frontend/order.js" ></script>
+</head>
+
+<body>
+
+
+  <nav class="navbar navbar-expand-md static-top py-2 z-depth-5" style="background-color:#fa0050;">
+    <div class="container">
+      <a class="navbar-brand p-3" href="#"><img src="https://assets.yemeksepeti.com/images/ys-new-logo.svg"></a>
+
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+
+
+      </div>
+    </div>
+  </nav>
+  <div class="container">
+    <div class="content">
+      <div class="label restaurant-name"> <?=$_SESSION['res_name']?> </div>
+      <div class="table order-products-table">
+        <div class="table-header">
+          <div class="column">
+            Yemek
+          </div>
+          <div class="column">
+            Fiyat
+          </div>
+          <div class="column">
+            Adet
+          </div>
+          <div class="column">
+            Tutar
+          </div>
+        </div>
+        <?php foreach($cart as &$item){ ?>
+          <div class="table-row order-item">
+            <div class="column">
+              <?=$item["item_name"]?>
+            </div>
+            <div class="column">
+            <?=price_format($item["product_price"])?>
+            </div>
+            <div class="column">
+              <input type="number" value="<?=$item["item_quantity"]?>">
+            </div>
+            <div class="column">
+            <?=price_format($item["product_price"]*$item["item_quantity"])?>
+            </div>
+          </div>
+        <?php } ?>
+        
+       
+        <div class="table-row table-footer">
+          <div class="left">
+            <input class="promotion-code-input" type="text" placeholder="Promosyon Kodunuzu Giriniz" />
+            <button class="apply-promotion-button" onclick="/*applyPromotionCode()*/">Uygula</button>
+          </div>
+          <div class="right">
+            <div class="row total">
+              <b>Ara Toplam:</b>
+              <a> <?=price_format($total_price)?></a>
+            </div>
+            <div class="row grand-total">
+              <b> Toplam:</b>
+              <a> <?=price_format($total_price)?></a>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="additional-info">
+          <b>Bu sepette kullanılan promosyonlar:</b>
+          <ul>
+            <li>
+              Sadece Yemeksepeti'nde, 'Vodafone Menüleri' ve 'Maximum Menüleri' hariç herhangi bir menü alana, 'Sucuk
+              Ekmek' 20,3 TL, 'Sezar Sufle' 26,3 TL, 'Peynirli Ekmek' 19,7 TL, 'Çılgın Ekmek (6'lı)' 13,7 TL, 'Sezar
+              Patates (Orta)' 13,7 TL, 'Çıtır Tavuk Topları (75 gr.)' 13,3 TL farkla!
+            </li>
+          </ul>
+        </div> -->
+      </div>
+      <div class="table order-products-table">
+        <div class="table-header">
+          <div class="column">
+            Yanında İyi Gider
+          </div>
+        </div>
+        <div class="table-slider">
+          <div class="nav-button">
+            &lt;
+          </div>
+          <div class="items">
+            <div class="item">
+              <img src="photos/pepsi.jpg" />
+              <b class="item-title">Pepsi Max</b>
+              <b class="item-price">14,90 TL</b>
+              <button class="add-to-basket"> Sepete Ekle </button>
+            </div>
+            <div class="item">
+              <img src="photos/pepsi.jpg" />
+              <b class="item-title">Pepsi Max</b>
+              <b class="item-price">15,90 TL</b>
+              <button class="add-to-basket"> Sepete Ekle </button>
+            </div>
+            <div class="item">
+              <img src="photos/pepsi.jpg" />
+              <b class="item-title">Pepsi Max</b>
+              <b class="item-price">16,90 TL</b>
+              <button class="add-to-basket"> Sepete Ekle </button>
+            </div>
+            <div class="item">
+              <img src="photos/pepsi.jpg" />
+              <b class="item-title">Pepsi Max</b>
+              <b class="item-price">17,90 TL</b>
+              <button class="add-to-basket"> Sepete Ekle </button>
+            </div>
+            <div class="item">
+              <img src="photos/pepsi.jpg" />
+              <b class="item-title">Pepsi Max</b>
+              <b class="item-price">18,90 TL</b>
+              <button class="add-to-basket"> Sepete Ekle </button>
+            </div>
+            <div class="item">
+              <img src="photos/pepsi.jpg" />
+              <b class="item-title">Pepsi Max</b>
+              <b class="item-price">19,90 TL</b>
+              <button class="add-to-basket"> Sepete Ekle </button>
+            </div>
+            <div class="item">
+              <img src="photos/pepsi.jpg" />
+              <b class="item-title">Pepsi Max</b>
+              <b class="item-price">20,90 TL</b>
+              <button class="add-to-basket"> Sepete Ekle </button>
+            </div>
+            <div class="item">
+              <img src="photos/pepsi.jpg" />
+              <b class="item-title">Pepsi Max</b>
+              <b class="item-price">21,90 TL</b>
+              <button class="add-to-basket"> Sepete Ekle </button>
+            </div>
+            <div class="item">
+              <img src="photos/pepsi.jpg" />
+              <b class="item-title">Pepsi Max</b>
+              <b class="item-price">22,90 TL</b>
+              <button class="add-to-basket"> Sepete Ekle </button>
+            </div>
+            <div class="item">
+              <img src="photos/pepsi.jpg" />
+              <b class="item-title">Pepsi Max</b>
+              <b class="item-price">23,90 TL</b>
+              <button class="add-to-basket"> Sepete Ekle </button>
+            </div>
+            <div class="item">
+              <img src="photos/pepsi.jpg" />
+              <b class="item-title">Pepsi Max</b>
+              <b class="item-price">24,90 TL</b>
+              <button class="add-to-basket"> Sepete Ekle </button>
+            </div>
+            <div class="item">
+              <img src="photos/pepsi.jpg" />
+              <b class="item-title">Pepsi Max</b>
+              <b class="item-price">25,90 TL</b>
+              <button class="add-to-basket"> Sepete Ekle </button>
+            </div>
+            <div class="item">
+              <img src="photos/pepsi.jpg" />
+              <b class="item-title">Pepsi Max</b>
+              <b class="item-price">26,90 TL</b>
+              <button class="add-to-basket"> Sepete Ekle </button>
+            </div>
+            <div class="item">
+              <img src="photos/pepsi.jpg" />
+              <b class="item-title">Pepsi Max</b>
+              <b class="item-price">27,90 TL</b>
+              <button class="add-to-basket"> Sepete Ekle </button>
+            </div>
+            <div class="item">
+              <img src="photos/pepsi.jpg" />
+              <b class="item-title">Pepsi Max</b>
+              <b class="item-price">28,90 TL</b>
+              <button class="add-to-basket"> Sepete Ekle </button>
+            </div>
+            <div class="item">
+              <img src="photos/pepsi.jpg" />
+              <b class="item-title">Pepsi Max</b>
+              <b class="item-price">29,90 TL</b>
+              <button class="add-to-basket"> Sepete Ekle </button>
+            </div>
+            <div class="item">
+              <img src="photos/pepsi.jpg" />
+              <b class="item-title">Pepsi Max</b>
+              <b class="item-price">30,90 TL</b>
+              <button class="add-to-basket"> Sepete Ekle </button>
+            </div>
+          </div>
+          <div class="nav-button">
+            &gt;
+          </div>
+        </div>
+      </div>
+      <b class="label">
+        Siparişin Teslim Edileceği Adres
+      </b>
+      <textarea></textarea>
+      <b class="label">
+        Ödeme Şekli
+      </b>
+      <div class="table payment-method online-payment">
+        <div class="table-header">
+          <div class="column">
+            Online Ödeme <span>(Online ödeyin, zaman kazanın)</span>
+          </div>
+        </div>
+        <div class="table-row">
+          <div class="column">
+            <div class="method-container" data-toggle="collapse" data-target="#online-payment-method-details">
+              <input type="radio" name="payment-method" value="online" />
+
+              <b>Online Kredi/Banka Kartı</b>
+              <span class="secure-payment"><img src="photos/lock.png" width="15px"> Güvenli Alışveriş</span>
+              <div class="cards">
+                <img src="photos/visa.png" width="150px"/>
+                
+              </div>
+            </div>
+            <div id="online-payment-method-details" class="collapse">
+              <div class="info">
+                <b>Kart Numarası:</b>
+                <input type="text" />
+              </div>
+              <div class="info">
+                <div class="info-area">
+                  <b>Geçerlilik Tarihi:</b>
+                  <select class="slcCardMonth form-control ys-input-xs no-mouseflow" tabindex="5">
+                    <option selected="selected">Ay</option>
+                    <option value="01">01</option>
+                    <option value="02">02</option>
+                    <option value="03">03</option>
+                    <option value="04">04</option>
+                    <option value="05">05</option>
+                    <option value="06">06</option>
+                    <option value="07">07</option>
+                    <option value="08">08</option>
+                    <option value="09">09</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                  </select>
+                  <select class="slcCardYear form-control ys-input-xs no-mouseflow" tabindex="6">
+                    <option selected="selected">Yıl</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                    <option value="2026">2026</option>
+                    <option value="2027">2027</option>
+                    <option value="2028">2028</option>
+                    <option value="2029">2029</option>
+                    <option value="2030">2030</option>
+                    <option value="2031">2031</option>
+                    <option value="2032">2032</option>
+                    <option value="2033">2033</option>
+                    <option value="2034">2034</option>
+                  </select>
+                </div>
+                <div class="info-area">
+                  <b>Güvenlik (CVC2) Kodu:</b>
+                  <input type="number" class="cvc" style="width: 55px !important" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="table payment-method online-payment">
+        <div class="table-header">
+          <div class="column">
+            Kapıda Ödeme
+          </div>
+        </div>
+        <div class="table-row">
+          <div class="column">
+            <div class="method-container">
+              <input type="radio" name="payment-method" value="cash" />
+              <b>Nakit</b>
+              <span class="secure payment">(Nakit ödeme)</span>
+              <div class="cards">
+                <img src="photos/cash.png" width="40px" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="table-row">
+          <div class="column">
+            <div class="method-container">
+              <input type="radio" name="payment-method" value="credit-card" />
+              <b>Kredi Kartı</b>
+              <span class="secure payment">(Sipariş tesliminde kredi kartı / banka kartı ile ödeme)</span>
+              <div class="cards">
+                <img src="photos/pos.png" width="40px" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="action-button" onclick="redirectToMainPage()">Sipariş Ver</button>
+      </div>
+        <script language="javascript"> 
+            
+           function redirectToMainPage()
+           {
+              alert("Siparişiniz başarıyla alınmıştır.");
+              window.location.href = "list.php";
+              }
+        </script>
+    
+  </div>
+  <br><br>
+  
+</body>
+
+</html>
