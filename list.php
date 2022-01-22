@@ -145,9 +145,6 @@
             margin: 0;
             width: 100%;
         }
-        .ys-leftColumn{
-            min-height: 550px;
-        }
         .col-md-4{
             position: relative;
             min-height: 1px;
@@ -350,8 +347,16 @@
                                 
                             </div>
                             <div class="row p-0 m-0 mt-2">
-                                <button type="button" class="btn btn-success p-2 m-0">Sepete Ekle</button>
+
+                            <button type="button" class="btn btn-success p-2 m-0" onclick="redirectToOrderPage()">Sepeti Onayla</button>
                             </div>
+                            <script language="javascript"> 
+
+                            function redirectToOrderPage(){
+                                window.location.href = "order.php";
+                            }
+
+                            </script>
                             <?php
                         }
                         else
@@ -537,21 +542,12 @@
                     }
                 
                 ?>
-<<<<<<< HEAD
-            </div>
-        </div>
-    </div>
-
-
-
-=======
                 
             </div>
         </div>
         
     </div>
     <?php include("footer.php")?>
->>>>>>> 3476d4f (some little additional features)
 
 
     
@@ -564,22 +560,9 @@
 
     </script>
 
-<<<<<<< HEAD
-
-    
-
-    
-
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-        
-=======
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
->>>>>>> 3476d4f (some little additional features)
     </body>
 </html>    
 

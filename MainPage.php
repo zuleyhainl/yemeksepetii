@@ -10,25 +10,16 @@
 	<link rel="stylesheet" href="login_style.css">
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-<<<<<<< HEAD
-=======
 	<link href="//assets.yemeksepeti.com/styles/ysapp.css?v=9c6a0f08a127372293fd649011c8e6dc7127e983" rel="stylesheet"> 
->>>>>>> 3476d4f (some little additional features)
 </head>
 <body class="sticky">
 <header class="main">
 	<div class="inner">
 		<div class="container">
 			<div class="row form-group">
-<<<<<<< HEAD
-				<div class="col-sm-4">
-					<a href="./MainPage.php">Yemeksepeti</a>
-				</div>
-=======
 				<div class="col-md-4 logoSection"> 
 					<a href="MainPage.php" class="logo2"></a> 
 				</div> 
->>>>>>> 3476d4f (some little additional features)
 				<!--<div class="col-sm-4 form">
 					<select class="form-control" id="city" name="city" onchange="getDistricts(this.value)">
 						<option value="City">İl</option>

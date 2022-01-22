@@ -5,6 +5,18 @@
   foreach($cart as &$item){ 
     $total_price+=$item["product_price"]*$item["item_quantity"];
   }
+
+
+
+  if (isset($_POST["confirm"])){
+    unset($_SESSION['cart']);
+    echo '<script>alert("Siparişiniz başarıyla alınmıştır.")</script>';
+    echo '<script>window.location="list.php"</script>';
+
+  }
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -325,16 +337,18 @@
           </div>
         </div>
       </div>
-      <button class="action-button" onclick="redirectToMainPage()">Sipariş Ver</button>
+      <form method="post" action="" name="delete_menu" id="delete_menu">
+      <input type="submit" name="confirm" class="action-button" value="Sipariş Ver">
+    </form>
       </div>
-        <script language="javascript"> 
+        <!--<script language="javascript"> 
             
-           function redirectToMainPage()
+          function redirectToMainPage()
            {
               alert("Siparişiniz başarıyla alınmıştır.");
               window.location.href = "list.php";
               }
-        </script>
+        </script>-->
     
   </div>
   <br><br>

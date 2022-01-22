@@ -292,6 +292,21 @@ include("utils.php")
         {
             font-size:10px;
         }
+
+        .col-md-4{
+            position: relative;
+            min-height: 1px;
+            padding-left: 6px;
+            padding-right: 6px;
+        }
+  
+   
+        @media (min-width: 1px){
+            .col-md-4 {
+                
+                float: left;
+            }
+        }
   
         
                     
@@ -665,7 +680,7 @@ include("utils.php")
     </div>
     </div>
 
-
+    <?php include("footer.php")?>
 
                                                     
                                              
