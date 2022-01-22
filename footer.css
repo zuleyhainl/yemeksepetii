@@ -1,0 +1,121 @@
+.ys-footer .top {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    line-height: 1.42857;
+    font-size: 11px;
+    font-family: Verdana,Geneva,sans-serif;
+    color: #333;
+    box-sizing: border-box;
+    background-color: #eff0f2;
+    border-bottom: 1px solid #e5e5e5;
+    border-top: 1px solid #e5e5e5;
+    padding: 25px 0;
+}
+
+footer.main.ys-footer {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    line-height: 1.42857;
+    font-size: 11px;
+    font-family: Verdana,Geneva,sans-serif;
+    color: #333;
+    box-sizing: border-box;
+    display: block;
+    margin-top: 15px;
+}
+footer .top a {
+    text-decoration: none;
+    line-height: 25px;
+    color: #e4920d;
+}
+footer ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+
+a.ys-btn.ys-btn-changeCity {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    box-sizing: border-box;
+    background: 0 0;
+    display: inline-block;
+    zoom: 1;
+    text-align: center;
+    white-space: nowrap;
+    user-select: none;
+    border-radius: 3px;
+    background-clip: padding-box;
+    transition: background .15s ease-in,background-color .15s ease-in,color .1s ease-in,top .1s ease-in;
+    position: relative;
+    top: 0;
+    font-weight: 700;
+    font-family: Open Sans,sans-serif;
+    vertical-align: top;
+    font-size: 12px;
+    outline: none!important;
+    text-decoration: none;
+    padding: 0;
+    background-color: #f6a31c;
+    color: #fff;
+    border: 1px solid #e4920d;
+    line-height: 31px;
+    text-indent: 7px;
+    margin-right: 7px;
+}
+
+.ys-btn span {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    text-align: center;
+    white-space: nowrap;
+    user-select: none;
+    font-weight: 700;
+    font-family: Open Sans,sans-serif;
+    font-size: 12px;
+    box-sizing: border-box;
+    display: inline-block;
+    zoom: 1;
+    transition: background-image .15s ease-in,background-color .15s ease-in;
+    padding: 8px 17px;
+    color: #fff;
+    line-height: 16px;
+    text-indent: 0;
+    margin-left: 5px;
+    background-color: #e4920d;
+    background-image: linear-gradient(#e4920d,#e4920d);
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    margin-right: -1px;
+}
+footer .top .changeLanguage {
+    top: 25px;
+    position: relative;
+    right: 10px;
+}
+footer .top .changeLanguage a {
+    font-size: 12px;
+    font-weight: 700;
+    color: #001b69;
+}
+footer .top .changeLanguage a span:first-child.selectEnglish {
+    background-color: #001b69;
+}
+
+footer .top .changeLanguage a span:first-child {
+    font-size: 11px;
+    margin-right: 2px;
+}
+footer .top .changeLanguage a span {
+    padding: 4px;
+    text-align: center;
+    border-radius: 4px;
+    position: relative;
+    color: #fff;
+    font-weight: 700;
+}
+
+span.selectEnglishTitle {
+    color: #001b69 !important;
+}

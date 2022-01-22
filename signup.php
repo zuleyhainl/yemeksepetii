@@ -34,6 +34,10 @@ if (hash_equals($_SESSION['token'], $_POST['token'])) {
 		$name=str_replace("'","*****",$name);
 		$surname=str_replace("'","*****",$surname);
 		$city=str_replace("'","*****",$city);
+<<<<<<< HEAD
+=======
+		
+>>>>>>> 3476d4f (some little additional features)
 		if (empty($email)) {
 			header("Location: sign_up.php?error=Email gerekli");
 			exit();
@@ -55,6 +59,16 @@ if (hash_equals($_SESSION['token'], $_POST['token'])) {
 		}else if(empty($city)){
 			header("Location: sign_up.php?error=Şehir gerekli");
 			exit();
+<<<<<<< HEAD
+=======
+		}
+		$user_exist="SELECT * FROM users WHERE email='$email' or uname='$uname'";
+		$user_exist_ar=mysqli_query($conn,$user_exist)or trigger_error(mysqli_error($conn)." ".$user_exist);
+		if(mysqli_num_rows($user_exist_ar)>0)
+		{
+			header("Location: sign_up.php?error=Bu kullanıcı adı veya eposta başka bir kullaıcıya ait. Lütfen başka bir kullanıcı adı veya eposta ile tekrar deneyin.");
+			exit();
+>>>>>>> 3476d4f (some little additional features)
 		}else{
 			if($password == $password_again){
 				$city_sql="SELECT city_id FROM cities WHERE city='$city'";

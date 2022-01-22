@@ -18,7 +18,11 @@
 				<div class="container"> 
 					<div class="row"> 	
 						<div class="col-md-4 logoSection"> 
+<<<<<<< HEAD
 							<a href="MainPage.html" class="logo2"></a> 
+=======
+							<a href="MainPage.php" class="logo2"></a> 
+>>>>>>> 3476d4f (some little additional features)
 						</div> 
 					</div> 
 				</div> 
