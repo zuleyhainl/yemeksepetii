@@ -3,18 +3,13 @@
 session_start();
 $city_name = $_SESSION['city_name'];
 $user_name=$_SESSION['name'];
-<<<<<<< HEAD
-=======
 include("utils.php")
->>>>>>> 3476d4f (some little additional features)
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<<<<<<< HEAD
-=======
-	
->>>>>>> 3476d4f (some little additional features)
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,11 +19,8 @@ include("utils.php")
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <?php
     
-<<<<<<< HEAD
-=======
 	header('Content-Type: text/html; charset=UTF-8');
-	
->>>>>>> 3476d4f (some little additional features)
+
     include 'config.php';
     
     if(isset($_POST['res_id']))
@@ -48,11 +40,7 @@ include("utils.php")
         //$res_id = $_GET["res_id"];
         $res_id = $_SESSION["res_id"];
     }
-<<<<<<< HEAD
-    
-=======
-   
->>>>>>> 3476d4f (some little additional features)
+
 
     
 
@@ -419,20 +407,17 @@ include("utils.php")
                                     <span class="fw-bold" style="">Toplam</span>
                                 </div>
                                 <div class="col-auto">
-<<<<<<< HEAD
+
                                     <span style="color:#fa0050;font-weight:600;"> <?php echo number_format($total, 2); ?> TL</span>
-=======
-                                    <span style="color:#fa0050;font-weight:600;"> <?=price_format($total)?> </span>
->>>>>>> 3476d4f (some little additional features)
+
+                                  <!--  <span style="color:#fa0050;font-weight:600;"> <?=price_format($total)?> </span>-->
+
                                 </div>
                                 
                                 
                             </div>
                             <div class="row p-0 m-0 mt-2">
-<<<<<<< HEAD
-                                <button type="button" class="btn btn-success p-2 m-0">Sepete Ekle</button>
-                            </div>
-=======
+
                                 <button type="button" class="btn btn-success p-2 m-0" onclick="redirectToOrderPage()">Sepete Ekle</button>
                             </div>
                             <script language="javascript"> 
@@ -442,7 +427,6 @@ include("utils.php")
                                 }
 
                             </script>
->>>>>>> 3476d4f (some little additional features)
                             <?php
                         }
                         else
