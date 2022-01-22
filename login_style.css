@@ -41,7 +41,7 @@ header .inner {
 	margin-bottom:10px;
 	margin-bottom:10px;
 }
-@media (min-width: 1px)
+@media (min-width: 1px){
 	.container {
 		width: 1009px;
 }
@@ -204,4 +204,4 @@ svg[Attributes Style] {
     margin: 20px 5px;
     font-size: 12px;
 }
-}
+
