@@ -241,7 +241,13 @@
           
             <form class="d-flex" action="" method = "post">
 				<input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
-				<input class="form-control me-2" type="text" value="<?php if(isset($_POST['rest_name'])){echo $_POST['rest_name'];}?>" id="rest_name" name="rest_name" placeholder="Restoran arayın.." aria-label="Search">
+				<input class="form-control me-2" type="text" value="<?php function validate($data){
+																				$data = trim($data);
+																				$data = stripslashes($data);
+																				$data = htmlspecialchars($data);
+																				return $data;
+																			}if(isset($_POST['rest_name'])){
+																				$rest_name= validate($_POST['rest_name']);echo $rest_name;}?>" id="rest_name" name="rest_name" placeholder="Restoran arayın.." aria-label="Search">
 				<button class="btn btn-outline-light" type="submit"><i class="bi bi-search"></i></button>
             </form>
           </div>
@@ -431,13 +437,13 @@
 
 
                 <?php
-                
-					function validate($data){
+					//validate function is moved to search box area php code piece	cd
+					/*function validate($data){
 						$data = trim($data);
 						$data = stripslashes($data);
 						$data = htmlspecialchars($data);
 						return $data;
-					}
+					}*/
                     //include "config.php";
                     $servername = "localhost";
                     $username = "root";
