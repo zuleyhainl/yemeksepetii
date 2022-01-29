@@ -3,7 +3,11 @@
 
     $helper = array_keys($_SESSION);
     foreach ($helper as $key){
-        unset($_SESSION[$key]);
+		if($key != 'token')
+		{
+			unset($_SESSION[$key]);
+		}
+        
     }
 	
 ?>
@@ -109,7 +113,7 @@
 												</div> 
 											</div> 
 											<input type="hidden" value="/siparis" name="Referrer"> 
-											<input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
+											<input type="hidden" name="token" value="<?php echo $_SESSION['token'];?>">
 										</form> 
 									</div> 
 								</div> 

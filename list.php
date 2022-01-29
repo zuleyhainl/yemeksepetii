@@ -37,15 +37,11 @@
             }
         }
         
-        
-        
-        
-        
 
 
         $user_name=$_SESSION['name'];
         $city_id=$_SESSION['city_id'];
-        $city_id=str_replace("'","*****",$city_id);
+        $city_id=str_replace("'","*****",$city_id);//sql enjection
         $query = "SELECT * FROM cities WHERE city_id='$city_id'";
         $result = mysqli_query($conn, $query);
 
@@ -55,9 +51,10 @@
             $city_name = $_SESSION['city_name'];
         } else {
             echo "hata!";
-  }
 
-               
+        mysqli_close($conn);
+  }
+       
                 
 	?>
 <!DOCTYPE html>
@@ -241,7 +238,7 @@
           
             <form class="d-flex" action="" method = "post">
 				<input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
-				<input class="form-control me-2" type="text" value="<?php function validate($data){
+				<input class="form-control me-2" type="text" value="<?php function validate($data){//cross site scripting
 																				$data = trim($data);
 																				$data = stripslashes($data);
 																				$data = htmlspecialchars($data);
@@ -258,7 +255,7 @@
 
 
     <div class="top-state"> 
-        <div class="top-image"> <img src="//cdn.yemeksepeti.com/App_Themes/SiteHeaders/Yemeksonuc.jpg"  style="top: -40px;"> </div> 
+        <div class="top-image"> <img src="http://cdn.yemeksepeti.com/App_Themes/SiteHeaders/Yemeksonuc.jpg"  style="top: -40px;"> </div> 
         <div class="container"> 
             <div class="row"> 
                 <div class="col-16-3" style="z-index: 1; --bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
@@ -308,7 +305,7 @@
                         </style>
                         <div class="card-body fill-basket border p-0">
                             <div class="row m-0 pt-2 pb-2" style="background-color:#eff0f2;">
-                                <a class="basket_res_name" style="" href="javascript:DoPost(<?php echo $items['res_id'];?>)" ><span> <?php echo $basket_res_name;?></span>, <span> <?php echo $basket_res_address; ?></span></a>
+                                <a class="basket_res_name" href="javascript:DoPost(<?php echo $basket_res_id;?>)" ><span> <?php echo $basket_res_name;?></span>, <span> <?php echo $basket_res_address; ?></span></a>
                             </div>   
                         </div>
                         <?php
@@ -319,18 +316,16 @@
                                 <div class="col-5" style="max-width:110px;">
                                     <span ><?php echo $value["item_name"]; ?></span>
                                 </div>
-                                <div class="col-auto" style="">
+                                <div class="col-auto">
                                     <span ><?php echo $value["item_quantity"]; ?></span>
                                 </div>
-                                <div class="col-auto" style="">
+                                <div class="col-auto">
                                     <span ><?php echo $value["product_price"]; ?></span>
                                 </div>
                                 <div class="col-auto">
                                     <span> <?php echo number_format($value["item_quantity"] * $value["product_price"], 2); ?> TL</span>
                                 </div>
-                                <div class="col-auto" style="">
-                                    <!--<span><a class="btn-remove" href="restaurant.php?action=delete&menu_id=<?php echo $value["product_id"]; ?>">
-                                    <span class="fw-bold">x</span></a></span>-->
+                                <div class="col-auto">                           
                                     <form method="post" action="restaurant.php" name="delete_menu" id="delete_menu">
                                             <input type="hidden" name="menu_id_hidden" value="<?php echo $value["product_id"];?>">
                                             <input type="hidden" name="delete_hidden" value="delete">                       
@@ -350,7 +345,7 @@
                             ?>
                             <div class="row d-flex mt-3 m-1" style="justify-content:space-between">
                                 <div class="col-auto">
-                                    <span class="fw-bold" style="">Toplam</span>
+                                    <span class="fw-bold">Toplam</span>
                                 </div>
                                 <div class="col-auto">
                                     <span style="color:#fa0050;font-weight:600;"> <?php echo number_format($total, 2); ?> TL</span>
@@ -444,12 +439,12 @@
 						$data = htmlspecialchars($data);
 						return $data;
 					}*/
-                    //include "config.php";
-                    $servername = "localhost";
+                    include "config.php";
+                    /*$servername = "localhost";
                     $username = "root";
                     $password ="";
                     $dbname = "yemeksepetidb";
-                    $conn = new mysqli($servername, $username, $password, $dbname);
+                    $conn = new mysqli($servername, $username, $password, $dbname);*/
                     
                     if($conn->connect_error)
                     {
@@ -459,18 +454,18 @@
 
                     
                     
-                    if(isset($_POST["rest_name"]))
+                    if(isset($_POST["rest_name"]))//arama çubuğu kullanılarak arama yapıldıysa
                     {
 						if (hash_equals($_SESSION['token'], $_POST['token'])) {
 							$rest_nametemp = validate($_POST['rest_name']);
-							$rest_nametemp=str_replace("'","*****",$rest_nametemp);
+							$rest_nametemp=str_replace("'","*****",$rest_nametemp);//
 							$query = "SELECT * FROM restaurants WHERE name LIKE '%$rest_nametemp%'";
 						}
 						else{
 							echo "Risk of CSRF attack";
 						}
                     }
-					else
+					else//direk ekrana ilgili city restoranları gelir
 					{
                         $city_id = validate($city_id);
 						$city_id=str_replace("'","*****",$city_id);
@@ -480,7 +475,7 @@
 						//$restaurants = $conn->query($city_res_query);
 					}
                     $query_run = mysqli_query($conn, $query);
-					
+					mysqli_close($conn);
                 
                     
                 ?>
@@ -546,7 +541,7 @@
                 ?>
                 <style>.top_info { display:none;}</style>
                 <div class="mt-3 mb-3"> 
-                    <div class="text"><span>Aradığınız kriterlere göre sonuç bulunamadı.Filtreleri kaldırarak yeniden arayabilirsiniz. </span></div>
+                    <div class="text"><span>Aradığınız kriterlere göre sonuç bulunamadı. Filtreleri kaldırarak yeniden arayabilirsiniz. </span></div>
                 </div>
                     
 

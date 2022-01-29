@@ -120,8 +120,8 @@ include "utils.php";
                 if ($value["product_id"] == $_POST["menu_id_hidden"]){
                     unset($_SESSION["cart"][$keys]);
                     echo '<script>alert("Ürün kaldırılıyor")</script>';
-                    echo '<script>window.location="restaurant.php"</script>';
-                    if(empyt($_SESSION['cart']))//sepet tamamen boşaldıysa sepetteki restoran bilgisini de serbest bırak
+                    echo '<script>window.location="list.php"</script>';
+                    if(empty($_SESSION['cart']))//sepet tamamen boşaldıysa sepetteki restoran bilgisini de serbest bırak
                     {
                         unset($_SESSION['basket_res_id']);
                     }
@@ -158,6 +158,7 @@ include "utils.php";
             $res_s_time = $row[7];
             $res_address = $row[9];
         }*/
+        mysqli_close($conn);
 
 ?>
 
@@ -348,7 +349,7 @@ include "utils.php";
     </nav>
    
 
-    <div class="row mt-5" style="">
+    <div class="row mt-5">
         <div class="top-state"> 
             <div class="container"> 
                 <div class="row"> 
@@ -370,8 +371,6 @@ include "utils.php";
 
     <div class="container">
    
-
-
         <div class="row">
             <div class="col-md-4" style="box-sizing: border-box;max-width: 330px;">
                 <div class="card menu-card mt-3">
@@ -402,23 +401,22 @@ include "utils.php";
                                 <div class="col-5" style="max-width:110px;">
                                     <span ><?php echo $value["item_name"]; ?></span>
                                 </div>
-                                <div class="col-auto" style="">
+                                <div class="col-auto">
                                     <span ><?php echo $value["item_quantity"]; ?></span>
                                 </div>
-                                <div class="col-auto" style="">
+                                <div class="col-auto">
                                     <span ><?php echo $value["product_price"]; ?></span>
                                 </div>
                                 <div class="col-auto">
                                     <span> <?php echo number_format($value["item_quantity"] * $value["product_price"], 2); ?> TL</span>
                                 </div>
-                                <div class="col-auto" style="">
+                                <div class="col-auto">
 
 
                                     <form method="post" action="" name="delete_menu" id="delete_menu">
-                                            <input type="hidden" name="menu_id_hidden" value="<?php echo $value["product_id"];?>">
-                                            <input type="hidden" name="delete_hidden" value="delete">                       
-                                        <!--<span><a class="btn-remove" href="javascript:delete()">
-                                        <span class="fw-bold">x</span></a></span>-->
+                                        <input type="hidden" name="menu_id_hidden" value="<?php echo $value["product_id"];?>">
+                                        <input type="hidden" name="delete_hidden" value="delete">                       
+                               
                                         <input type="submit" name="delete" style="margin-top: 5px;border:none;" class="btn-remove" value="x">
                                     </form>
                                 </div>
@@ -433,7 +431,7 @@ include "utils.php";
                             ?>
                             <div class="row d-flex mt-3 m-1" style="justify-content:space-between">
                                 <div class="col-auto">
-                                    <span class="fw-bold" style="">Toplam</span>
+                                    <span class="fw-bold">Toplam</span>
                                 </div>
                                 <div class="col-auto">
 
@@ -647,7 +645,7 @@ include "utils.php";
 
                         <div class="tab-pane" id="comments" role="tabpanel" aria-labelledby="comments-tab">
                             <div class="card menu-card mt-3">
-                                <div class="card-header fw-bold fs-6" style="">
+                                <div class="card-header fw-bold fs-6">
                                     Restorana yapılan yorumlar
                                 </div>
 

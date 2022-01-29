@@ -61,7 +61,7 @@ if (hash_equals($_SESSION['token'], $_POST['token'])) {
 							exit();
 						}
 					}else{
-						header("Location: index.php?error=Incorect User name or password");
+						header("Location: Index.php?error=Incorect User name or password");
 						exit();
 					}
 				}

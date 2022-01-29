@@ -53,7 +53,7 @@ if (hash_equals($_SESSION['token'], $_POST['token'])) {
 		}else if(empty($surname)){
 			header("Location: sign_up.php?error=Soyadı gerekli");
 			exit();
-		}else if(empty($city)){
+		}else if($city == 'İl'){
 			header("Location: sign_up.php?error=Şehir gerekli");
 			exit();
 		}

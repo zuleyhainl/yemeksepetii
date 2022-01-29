@@ -1,12 +1,10 @@
 <?php
 	session_start();
 
-
-    $helper = array_keys($_SESSION);
+	$helper = array_keys($_SESSION);
     foreach ($helper as $key){
 		unset($_SESSION[$key]);
-		
-		
+
     }
 	
 	$_SESSION['token'] = bin2hex(random_bytes(24));
