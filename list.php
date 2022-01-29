@@ -1,6 +1,11 @@
-<?php
-		session_start();
+<?php 
+        session_start();
 
+        if(!isset($_SESSION["name"]))
+        {
+            die("Direct access not permitted");
+        }
+        
         include "config.php";
                     
         if($conn->connect_error)
@@ -35,13 +40,12 @@
         
         
         
-
-
+        
 
 
         $user_name=$_SESSION['name'];
         $city_id=$_SESSION['city_id'];
-		$city_id=str_replace("'","*****",$city_id);
+        $city_id=str_replace("'","*****",$city_id);
         $query = "SELECT * FROM cities WHERE city_id='$city_id'";
         $result = mysqli_query($conn, $query);
 
@@ -49,10 +53,12 @@
             $row = mysqli_fetch_assoc($result);
             $_SESSION['city_name']= $row['city'];
             $city_name = $_SESSION['city_name'];
-          } else {
+        } else {
             echo "hata!";
-          }
-        
+  }
+
+               
+                
 	?>
 <!DOCTYPE html>
 <html lang="en">
@@ -319,7 +325,7 @@
                                 <div class="col-auto" style="">
                                     <!--<span><a class="btn-remove" href="restaurant.php?action=delete&menu_id=<?php echo $value["product_id"]; ?>">
                                     <span class="fw-bold">x</span></a></span>-->
-                                    <form method="post" action="Restaurant.php" name="delete_menu" id="delete_menu">
+                                    <form method="post" action="restaurant.php" name="delete_menu" id="delete_menu">
                                             <input type="hidden" name="menu_id_hidden" value="<?php echo $value["product_id"];?>">
                                             <input type="hidden" name="delete_hidden" value="delete">                       
                                         <!--<span><a class="btn-remove" href="javascript:delete()">
@@ -385,7 +391,7 @@
                             <li><a class="dropdown-item" href="#">Favorilerim</a></li>
                             <li><a class="dropdown-item" href="#">Adreslerim</a></li>
                             <li><a class="dropdown-item" href="#">Bilgilerim</a></li>
-                            <li><a class="dropdown-item" href="MainPage.php">Çıkış Yap</a></li>
+                            <li><a class="dropdown-item" href="Index.php">Çıkış Yap</a></li>
                             </ul>
                         </div>
                     </div>

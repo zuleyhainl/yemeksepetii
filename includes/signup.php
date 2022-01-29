@@ -74,7 +74,7 @@ if (hash_equals($_SESSION['token'], $_POST['token'])) {
 					//$result = mysqli_query($conn, $sql);
 					$user = mysqli_query($conn,$sql) or trigger_error(mysqli_error($conn)." ".$sql);
 					//$user=$conn->query($sql);
-					header("Location: Index.php");
+					header("Location:MainPage.php");
 					exit();	
 				}
 			}else{

@@ -18,10 +18,10 @@ if (hash_equals($_SESSION['token'], $_POST['token'])) {
 		$uname_email=str_replace("'","*****",$uname_email);
 		$password=str_replace("'","*****",$password);
 		if (empty($uname_email)) {
-			header("Location: MainPage.php?error=User Name is required");
+			header("Location: Index.php?error=User Name is required");
 			exit();
 		}else if(empty($password)){
-			header("Location: MainPage.php?error=Password is required");
+			header("Location: Index.php?error=Password is required");
 			exit();
 		}else{
 			$sql = "SELECT * FROM users WHERE (uname='$uname_email' OR email='$uname_email') AND password='$password'";
@@ -29,11 +29,11 @@ if (hash_equals($_SESSION['token'], $_POST['token'])) {
 			$user = mysqli_query($conn,$sql) or trigger_error(mysqli_error($conn)." ".$sql);
 			//$user=$conn->query($sql);
 			if(!$user){
-				header("Location: MainPage.php?error=Query Error");
+				header("Location: Index.php?error=Query Error");
 					//echo $user;
 					exit();	
 			}elseif(mysqli_num_rows($user) == 0){
-					header("Location: MainPage.php?error=Incorect User name or password");
+					header("Location: Index.php?error=Incorect User name or password");
 					//echo $user;
 					exit();	
 			}else{
@@ -47,6 +47,7 @@ if (hash_equals($_SESSION['token'], $_POST['token'])) {
 							$_SESSION['user_id'] = $row['user_id'];
 							$_SESSION['city_id']= $row['city_id'];
 							//$_SESSION['city_name']= $row['city'];
+							
 							header("Location:list.php");	
 							exit();
 						}else if($row['email'] === $uname_email){
@@ -70,7 +71,7 @@ if (hash_equals($_SESSION['token'], $_POST['token'])) {
 			}
 		}
 	}else{
-		header("Location: MainPage.php");
+		header("Location: Index.php");
 		exit();
 	}
 }

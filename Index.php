@@ -1,7 +1,17 @@
 <?php
 	session_start();
+
+
+    $helper = array_keys($_SESSION);
+    foreach ($helper as $key){
+		unset($_SESSION[$key]);
+		
+		
+    }
+	
 	$_SESSION['token'] = bin2hex(random_bytes(24));
 ?>
+
 <html>
 <head>
 	<title>Ana Sayfa</title>
@@ -18,7 +28,7 @@
 		<div class="container">
 			<div class="row form-group">
 				<div class="col-md-4 logoSection"> 
-					<a href="MainPage.php" class="logo2"></a> 
+					<a href="Index.php" class="logo2"></a> 
 				</div> 
 				<!--<div class="col-sm-4 form">
 					<select class="form-control" id="city" name="city" onchange="getDistricts(this.value)">

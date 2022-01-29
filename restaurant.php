@@ -1,9 +1,17 @@
 <?php
-//session_set_cookie_params(0);
+
 session_start();
-$city_name = $_SESSION['city_name'];
-$user_name=$_SESSION['name'];
-include("utils.php")
+include 'config.php';
+include "utils.php";
+
+    if(!isset($_SESSION['name']))
+    {  
+        die('Direct access not permitted');
+    }
+    if(!isset($_SESSION['res_id']) && !isset($_POST['res_id']))
+    {
+        die('Direct access not permitted');
+    }
 
 ?>
 <!DOCTYPE html>
@@ -21,7 +29,7 @@ include("utils.php")
     
 	header('Content-Type: text/html; charset=UTF-8');
 
-    include 'config.php';
+    
     
     if(isset($_POST['res_id']))
     {
@@ -41,7 +49,13 @@ include("utils.php")
         $res_id = $_SESSION["res_id"];
     }
 
+    
+    
 
+
+    $city_name = $_SESSION['city_name'];
+    $user_name=$_SESSION['name'];
+    
     
 
     
@@ -425,7 +439,7 @@ include("utils.php")
 
                                     <span style="color:#fa0050;font-weight:600;"> <?php echo number_format($total, 2); ?> TL</span>
 
-                                  <!--  <span style="color:#fa0050;font-weight:600;"> <?=price_format($total)?> </span>-->
+                            
 
                                 </div>
                                 
@@ -433,7 +447,7 @@ include("utils.php")
                             </div>
                             <div class="row p-0 m-0 mt-2">
 
-                                <button type="button" class="btn btn-success p-2 m-0" onclick="redirectToOrderPage()">Sepete Ekle</button>
+                                <button type="button" class="btn btn-success p-2 m-0" onclick="redirectToOrderPage()">Sepeti Onayla</button>
                             </div>
                             <script language="javascript"> 
 
@@ -688,14 +702,13 @@ include("utils.php")
 
     <script language="javascript"> 
 
-        function LogOut(){
+        function LogOut(){ 
+            window.location.href = "Index.php";
             
-            window.location.href = "MainPage.php";
-            //session_destroy();
+            
         }
 
     </script>
-
 
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

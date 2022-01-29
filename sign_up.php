@@ -1,5 +1,11 @@
 <?php
 	session_start();
+
+    $helper = array_keys($_SESSION);
+    foreach ($helper as $key){
+        unset($_SESSION[$key]);
+    }
+	
 ?>
 <html>
 <head>
@@ -18,7 +24,7 @@
 				<div class="container"> 
 					<div class="row"> 	
 						<div class="col-md-4 logoSection"> 
-							<a href="MainPage.php" class="logo2"></a> 
+							<a href="Index.php" class="logo2"></a> 
 						</div> 
 					</div> 
 				</div> 
